@@ -443,56 +443,111 @@
     }
 
     .card-body {
-      padding: 40px 28px 32px;
+      padding: 20px 20px 24px;
       text-align: center;
     }
 
     .card-body h3 {
       font-family: 'Playfair Display', serif;
-      font-size: 22px;
+      font-size: 20px;
       color: var(--rojo);
-      margin-bottom: 12px;
+      margin: 0;
     }
 
     .card-body p {
-      color: #777;
-      font-size: 14px;
-      line-height: 1.7;
-      margin-bottom: 20px;
+      display: none;
     }
 
     .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 16px;
-      border-top: 1px solid rgba(168,25,46,0.1);
+      display: none;
     }
 
     .price {
-      font-family: 'Playfair Display', serif;
-      font-size: 30px;
-      color: var(--dorado);
-      font-weight: 700;
+      display: none;
     }
 
     .price-label {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #aaa;
+      display: none;
     }
 
     .card-tag {
-      display: inline-block;
-      padding: 4px 12px;
-      background: var(--rojo);
-      color: var(--crema);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      border-radius: 100px;
+      display: none;
+    }
+
+    /* ─── Equipo ─────────────────────────────────────── */
+    .team {
+      padding: 110px 0;
+      background: var(--crema);
+    }
+
+    .team-header {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+
+    .team-header .section-title,
+    .team-header .section-label {
+      display: block;
+      text-align: center;
+    }
+
+    .team-header .divider {
+      margin: 20px auto 0;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 32px;
+    }
+
+    .team-card {
+      position: relative;
+      text-align: center;
+      background: var(--blanco);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+                  box-shadow 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+      box-shadow: 0 4px 12px rgba(168,25,46,0.08);
+      border: 1px solid rgba(168,25,46,0.05);
+    }
+
+    .team-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(168,25,46,0.15);
+    }
+
+    .team-image {
+      position: relative;
+      overflow: hidden;
+      height: 240px;
+      width: 100%;
+    }
+
+    .team-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .team-card:hover .team-image img {
+      transform: scale(1.06);
+    }
+
+    .team-info {
+      padding: 24px 20px;
+    }
+
+    .team-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--rojo);
+      margin: 0;
+      letter-spacing: 0.5px;
     }
 
     /* ─── Platos Lista ───────────────────────────────── */
@@ -702,10 +757,17 @@
     }
 
     /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 1200px) {
+      .team-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
     @media (max-width: 900px) {
       .about-inner,
       .menu-grid,
-      .contact-grid {
+      .contact-grid,
+      .team-grid {
         grid-template-columns: 1fr;
       }
 
@@ -717,6 +779,10 @@
 
       nav ul {
         gap: 18px;
+      }
+
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -749,6 +815,7 @@
         <ul>
           <li><a href="#sobre">Nosotros</a></li>
           <li><a href="#menu">Menú</a></li>
+          <li><a href="#equipo">Equipo</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
       </nav>
@@ -810,11 +877,118 @@
         <h2 class="section-title">Lo mejor de nuestra carta</h2>
         <div class="divider"></div>
       </div>
-      <ul class="platos-lista reveal">
-        <li>Bife de Chorizo</li>
-        <li>Salmón a la Mantequilla</li>
-        <li>Cordero al Vino Tinto</li>
-      </ul>
+      <div class="menu-grid reveal">
+        <div class="menu-card">
+          <div class="card-top">
+            <img src="imagenes/1.PNG" alt="Bife de Chorizo">
+          </div>
+          <div class="card-body">
+            <h3>Bife de Chorizo</h3>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <div class="card-top">
+            <img src="imagenes/2.PNG" alt="Salmón a la Mantequilla">
+          </div>
+          <div class="card-body">
+            <h3>Salmón a la Mantequilla</h3>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <div class="card-top">
+            <img src="imagenes/3.PNG" alt="Cordero al Vino Tinto">
+          </div>
+          <div class="card-body">
+            <h3>Cordero al Vino Tinto</h3>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <div class="card-top">
+            <img src="imagenes/4.PNG" alt="Tabla de Quesos">
+          </div>
+          <div class="card-body">
+            <h3>Tabla de Quesos</h3>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <div class="card-top">
+            <img src="imagenes/5.PNG" alt="Costillas BBQ">
+          </div>
+          <div class="card-body">
+            <h3>Costillas BBQ</h3>
+          </div>
+        </div>
+
+        <div class="menu-card">
+          <div class="card-top">
+            <img src="imagenes/6.PNG" alt="Pez Espada">
+          </div>
+          <div class="card-body">
+            <h3>Pez Espada</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Equipo ─── -->
+  <section class="team" id="equipo">
+    <div class="container">
+      <div class="team-header reveal">
+        <span class="section-label">Nuestro Equipo</span>
+        <h2 class="section-title">Los rostros detrás del fuego</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="team-grid reveal">
+        <div class="team-card">
+          <div class="team-image">
+            <img src="imagenes/1.PNG" alt="Chef Principal">
+          </div>
+          <div class="team-info">
+            <h3>Chef Principal</h3>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-image">
+            <img src="imagenes/2.PNG" alt="Sous Chef">
+          </div>
+          <div class="team-info">
+            <h3>Sous Chef</h3>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-image">
+            <img src="imagenes/3.PNG" alt="Chef Pastelero">
+          </div>
+          <div class="team-info">
+            <h3>Chef Pastelero</h3>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-image">
+            <img src="imagenes/4.PNG" alt="Chef Parrillero">
+          </div>
+          <div class="team-info">
+            <h3>Chef Parrillero</h3>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-image">
+            <img src="imagenes/5.PNG" alt="Sommelier">
+          </div>
+          <div class="team-info">
+            <h3>Sommelier</h3>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
