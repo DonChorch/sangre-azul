@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sangre Azul — Restaurante Gourmet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --rojo:    #A8192E;
+      --rojo-oscuro: #6b1426;
+      --dorado:  #D4AF37;
+      --crema:   #F5E6D3;
+      --carbon:  #1a1a1a;
+      --gris:    #555;
+      --blanco:  #ffffff;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      color: var(--carbon);
+      line-height: 1.7;
+      background: var(--blanco);
+    }
+
+    /* ─── Utilidades ─────────────────────────────────── */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section-label {
+      display: block;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--dorado);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(32px, 5vw, 48px);
+      line-height: 1.2;
+      color: var(--rojo);
+    }
+
+    .divider {
+      width: 64px;
+      height: 2px;
+      background: var(--dorado);
+      margin: 20px auto 0;
+    }
+
+    /* ─── Header ─────────────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(26, 26, 26, 0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 72px;
+    }
+
+    .logo img {
+      height: 64px;
+      width: auto;
+      display: block;
+      mix-blend-mode: screen;
+      filter: brightness(1.05) contrast(1.1);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 36px;
+    }
+
+    nav a {
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--dorado);
+      transition: width 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--dorado);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* ─── Hero ───────────────────────────────────────── */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background: var(--carbon);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 30%, rgba(168,25,46,0.55) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 20% 80%, rgba(107,20,38,0.4) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 30% at 80% 70%, rgba(212,175,55,0.08) 0%, transparent 50%);
+    }
+
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 40px 20px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Lato', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--dorado);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(52px, 10vw, 96px);
+      font-weight: 700;
+      letter-spacing: 6px;
+      color: var(--crema);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+
+    .hero-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 0 auto 4px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+
+    .hero-logo img {
+      width: min(380px, 70vw);
+      height: auto;
+      display: block;
+      mix-blend-mode: screen;
+      filter: brightness(1.1);
+    }
+
+    .hero-rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
+      margin: 18px auto 24px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.55s forwards;
+    }
+
+    .hero-rule span {
+      display: block;
+      width: 60px;
+      height: 1px;
+      background: var(--dorado);
+    }
+
+    .hero-rule i {
+      font-style: normal;
+      color: var(--dorado);
+      font-size: 14px;
+    }
+
+    .hero p {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 3vw, 24px);
+      font-style: italic;
+      color: rgba(245,230,211,0.8);
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s forwards;
+    }
+
+    .hero-cta {
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s forwards;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 16px 48px;
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--carbon);
+      background: var(--dorado);
+      border: 2px solid var(--dorado);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .cta-button:hover {
+      background: transparent;
+      color: var(--dorado);
+    }
+
+    .cta-button.outline {
+      background: transparent;
+      color: var(--dorado);
+    }
+
+    .cta-button.outline:hover {
+      background: var(--dorado);
+      color: var(--carbon);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Stats Bar ──────────────────────────────────── */
+    .stats-bar {
+      background: var(--rojo);
+      padding: 28px 0;
+      border-bottom: 3px solid var(--dorado);
+    }
+
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 8px 20px;
+      border-right: 1px solid rgba(245,230,211,0.2);
+    }
+
+    .stat-item:last-child {
+      border-right: none;
+    }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      color: var(--dorado);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(245,230,211,0.7);
+      margin-top: 6px;
+    }
+
+    /* ─── Sobre Nosotros ─────────────────────────────── */
+    .about {
+      padding: 110px 0;
+      background: var(--crema);
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .about-text .section-label,
+    .about-text .section-title {
+      text-align: left;
+    }
+
+    .about-text .divider {
+      margin: 20px 0 0;
+    }
+
+    .about-body {
+      margin-top: 32px;
+    }
+
+    .about-body p {
+      color: var(--gris);
+      font-size: 16px;
+      margin-bottom: 16px;
+      line-height: 1.85;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-frame {
+      background: linear-gradient(135deg, var(--rojo) 0%, var(--rojo-oscuro) 100%);
+      border-radius: 4px;
+      padding: 60px 40px;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(168,25,46,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-frame::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212,175,55,0.1), transparent 70%);
+      pointer-events: none;
+    }
+
+    .about-frame-icon {
+      font-size: 72px;
+      display: block;
+      margin-bottom: 24px;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+
+    .about-frame h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      color: var(--crema);
+      margin-bottom: 12px;
+    }
+
+    .about-frame p {
+      font-size: 14px;
+      color: rgba(245,230,211,0.7);
+      letter-spacing: 1px;
+    }
+
+    .about-badge {
+      position: absolute;
+      bottom: -20px;
+      right: 30px;
+      background: var(--dorado);
+      color: var(--carbon);
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 2px;
+      box-shadow: 0 8px 24px rgba(212,175,55,0.4);
+    }
+
+    /* ─── Menú ───────────────────────────────────────── */
+    .menu {
+      padding: 110px 0;
+      background: var(--blanco);
+    }
+
+    .menu-header {
+      text-align: center;
+      margin-bottom: 70px;
+    }
+
+    .menu-header .section-title,
+    .menu-header .section-label {
+      display: block;
+      text-align: center;
+    }
+
+    .menu-header .divider {
+      margin: 20px auto 0;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .menu-card {
+      position: relative;
+      background: var(--crema);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(168,25,46,0.08);
+      transition: transform 0.35s cubic-bezier(0.165, 0.84, 0.44, 1),
+                  box-shadow 0.35s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .menu-card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 24px 60px rgba(168,25,46,0.18);
+    }
+
+    .card-top {
+      position: relative;
+      overflow: hidden;
+      height: 220px;
+    }
+
+    .card-top img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .menu-card:hover .card-top img {
+      transform: scale(1.07);
+    }
+
+    .card-top::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--crema));
+    }
+
+    .card-body {
+      padding: 40px 28px 32px;
+      text-align: center;
+    }
+
+    .card-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      color: var(--rojo);
+      margin-bottom: 12px;
+    }
+
+    .card-body p {
+      color: #777;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid rgba(168,25,46,0.1);
+    }
+
+    .price {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      color: var(--dorado);
+      font-weight: 700;
+    }
+
+    .price-label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #aaa;
+    }
+
+    .card-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--rojo);
+      color: var(--crema);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 100px;
+    }
+
+    /* ─── Reserva CTA ────────────────────────────────── */
+    .reserva-cta {
+      padding: 90px 0;
+      background: linear-gradient(135deg, var(--carbon) 0%, #2a1a1a 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .reserva-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(168,25,46,0.3), transparent 70%);
+    }
+
+    .reserva-cta .section-label {
+      position: relative;
+    }
+
+    .reserva-cta .section-title {
+      color: var(--crema);
+      position: relative;
+      margin: 0 auto;
+    }
+
+    .reserva-cta p {
+      color: rgba(245,230,211,0.6);
+      font-size: 16px;
+      margin: 20px auto 40px;
+      max-width: 480px;
+      position: relative;
+    }
+
+    .reserva-cta .cta-button {
+      position: relative;
+    }
+
+    /* ─── Contacto ───────────────────────────────────── */
+    .contact {
+      padding: 110px 0;
+      background: linear-gradient(160deg, var(--rojo) 0%, var(--rojo-oscuro) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 10% 10%, rgba(212,175,55,0.07) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(212,175,55,0.07) 0%, transparent 40%);
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 70px;
+      position: relative;
+    }
+
+    .contact-header .section-label {
+      color: rgba(212,175,55,0.7);
+    }
+
+    .contact-header .section-title {
+      color: var(--crema);
+    }
+
+    .contact-header .divider {
+      background: var(--dorado);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      position: relative;
+    }
+
+    .info-card {
+      background: rgba(245,230,211,0.07);
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: 4px;
+      padding: 40px 32px;
+      text-align: center;
+      backdrop-filter: blur(4px);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .info-card:hover {
+      background: rgba(245,230,211,0.12);
+      border-color: rgba(212,175,55,0.5);
+    }
+
+    .info-icon {
+      font-size: 36px;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .info-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--dorado);
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+
+    .info-card p {
+      color: rgba(245,230,211,0.8);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    /* ─── Footer ─────────────────────────────────────── */
+    footer {
+      background: var(--carbon);
+      padding: 32px 0;
+      border-top: 1px solid rgba(212,175,55,0.2);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-logo img {
+      height: 48px;
+      width: auto;
+      mix-blend-mode: screen;
+      filter: brightness(0.85);
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(212,175,55,0.5);
+      letter-spacing: 1px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer-social a {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(212,175,55,0.25);
+      border-radius: 50%;
+      color: rgba(212,175,55,0.6);
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .footer-social a:hover {
+      border-color: var(--dorado);
+      color: var(--dorado);
+      background: rgba(212,175,55,0.1);
+    }
+
+    /* ─── Scroll reveal ──────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── Responsive ─────────────────────────────────── */
+    @media (max-width: 900px) {
+      .about-inner,
+      .menu-grid,
+      .contact-grid,
+      .stats-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-item {
+        border-right: none;
+        border-bottom: 1px solid rgba(245,230,211,0.2);
+        padding: 16px;
+      }
+
+      .stat-item:last-child {
+        border-bottom: none;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+
+      nav ul {
+        gap: 18px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-logo img {
+        width: min(280px, 80vw);
+      }
+
+      nav ul {
+        display: none;
+      }
+
+      .about-badge {
+        position: static;
+        display: inline-block;
+        margin-top: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Header ─── -->
+  <header>
+    <div class="container header-inner">
+      <div class="logo">
+        <img src="logo.png" alt="Sangre Azul">
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#sobre">Nosotros</a></li>
+          <li><a href="#menu">Menú</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <a href="#contacto" class="cta-button" style="padding:10px 24px;font-size:11px;">Reservar</a>
+    </div>
+  </header>
+
+  <!-- ─── Hero ─── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content container">
+      <span class="hero-eyebrow">Restaurante Gourmet · Azul, Buenos Aires</span>
+      <div class="hero-logo">
+        <img src="logo.png" alt="Sangre Azul">
+      </div>
+      <div class="hero-rule">
+        <span></span>
+        <i>✦</i>
+        <span></span>
+      </div>
+      <p>Fuego, vino y cocina con alma</p>
+      <div class="hero-cta">
+        <a href="#menu" class="cta-button outline">Ver Menú</a>
+        <a href="#contacto" class="cta-button">Reservar Ahora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Stats Bar ─── -->
+  <div class="stats-bar">
+    <div class="container stats-inner">
+      <div class="stat-item">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">Años de experiencia</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">40+</div>
+        <div class="stat-label">Platos en carta</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Ingredientes frescos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Sobre Nosotros ─── -->
+  <section class="about" id="sobre">
+    <div class="container about-inner">
+      <div class="about-text reveal">
+        <span class="section-label">Quiénes somos</span>
+        <h2 class="section-title">Una experiencia<br>que no se olvida</h2>
+        <div class="divider"></div>
+        <div class="about-body">
+          <p>En Sangre Azul, ofrecemos una experiencia culinaria única que combina la tradición argentina con técnicas modernas de cocina. Cada visita es un viaje a través de sabores auténticos y cuidadosamente elaborados.</p>
+          <p>Cada plato es una obra maestra creada con ingredientes frescos y seleccionados cuidadosamente para satisfacer los paladares más exigentes. La parrilla, el fuego y el vino son nuestra esencia.</p>
+          <p>Nuestro equipo de chefs expertos se dedica a brindar un servicio impecable en un ambiente elegante y cálido, donde cada detalle importa.</p>
+        </div>
+      </div>
+      <div class="about-visual reveal" style="transition-delay:0.15s">
+        <div class="about-frame">
+          <span class="about-frame-icon">🔥</span>
+          <h3>Cocina con Alma</h3>
+          <p>Tradición argentina · Técnica moderna</p>
+        </div>
+        <div class="about-badge">Desde 2009</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Menú ─── -->
+  <section class="menu" id="menu">
+    <div class="container">
+      <div class="menu-header reveal">
+        <span class="section-label">Platos Destacados</span>
+        <h2 class="section-title">Lo mejor de nuestra carta</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="menu-grid">
+
+        <div class="menu-card reveal" style="transition-delay:0.05s">
+          <div class="card-top">
+            <img src="imagenes/2.PNG" alt="Bife de Chorizo">
+          </div>
+          <div class="card-body">
+            <h3>Bife de Chorizo</h3>
+            <p>Corte premium a la parrilla con chimichurri artesanal y papas gratinadas al romero.</p>
+            <div class="card-footer">
+              <div>
+                <div class="price">$420</div>
+                <div class="price-label">por plato</div>
+              </div>
+              <span class="card-tag">Signature</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" style="transition-delay:0.15s">
+          <div class="card-top">
+            <img src="imagenes/1.PNG" alt="Salmón a la Mantequilla">
+          </div>
+          <div class="card-body">
+            <h3>Salmón a la Mantequilla</h3>
+            <p>Filete fresco con vino blanco, espárragos salteados y salsa de limón y alcaparras.</p>
+            <div class="card-footer">
+              <div>
+                <div class="price">$380</div>
+                <div class="price-label">por plato</div>
+              </div>
+              <span class="card-tag">Del mar</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-card reveal" style="transition-delay:0.25s">
+          <div class="card-top">
+            <img src="imagenes/5.PNG" alt="Cordero al Vino Tinto">
+          </div>
+          <div class="card-body">
+            <h3>Cordero al Vino Tinto</h3>
+            <p>Pieza entera cocida lentamente en vino tinto Malbec con champiñones y hierbas frescas.</p>
+            <div class="card-footer">
+              <div>
+                <div class="price">$450</div>
+                <div class="price-label">por plato</div>
+              </div>
+              <span class="card-tag">Chef</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Reserva CTA ─── -->
+  <section class="reserva-cta">
+    <div class="container">
+      <span class="section-label">Reservas</span>
+      <h2 class="section-title reveal">¿Listo para una velada inolvidable?</h2>
+      <p class="reveal" style="transition-delay:0.1s">Reservá tu mesa y dejate llevar por los sabores de Sangre Azul.</p>
+      <a href="#contacto" class="cta-button reveal" style="transition-delay:0.2s">Hacer una Reserva</a>
+    </div>
+  </section>
+
+  <!-- ─── Contacto ─── -->
+  <section class="contact" id="contacto">
+    <div class="container">
+      <div class="contact-header">
+        <span class="section-label">Encontranos</span>
+        <h2 class="section-title">Contacto</h2>
+        <div class="divider"></div>
+      </div>
+      <div class="contact-grid">
+
+        <div class="info-card reveal">
+          <span class="info-icon">📍</span>
+          <h3>Ubicación</h3>
+          <p>Belgrano 128<br>Azul, Buenos Aires<br>Argentina</p>
+        </div>
+
+        <div class="info-card reveal" style="transition-delay:0.1s">
+          <span class="info-icon">📞</span>
+          <h3>Teléfono</h3>
+          <p>+54 (0236) 423-8000<br><br>
+            <a href="tel:+5402364238000" style="color:var(--dorado);text-decoration:none;">Llamar ahora</a>
+          </p>
+        </div>
+
+        <div class="info-card reveal" style="transition-delay:0.2s">
+          <span class="info-icon">⏰</span>
+          <h3>Horarios</h3>
+          <p>Lun–Vie: 19:00 – 23:00<br>Sábados: 12:00 – 00:00<br>Domingos: 12:00 – 23:00</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-logo">
+        <img src="logo.png" alt="Sangre Azul" style="mix-blend-mode:screen;">
+      </div>
+      <p class="footer-copy">&copy; 2024 Sangre Azul Restaurante. Todos los derechos reservados.</p>
+      <div class="footer-social">
+        <a href="#" title="Instagram">📷</a>
+        <a href="#" title="Facebook">👤</a>
+        <a href="#" title="WhatsApp">💬</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ─── Scroll Reveal ─── -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
